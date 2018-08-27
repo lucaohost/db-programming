@@ -13,7 +13,7 @@ tenham número superior a 10
 select * from ambulatorio where Andar = 4 and ((Capacidade = 50 and NumeroA < 10) or (Capacidade <> 50 and NumeroA > 10));
 
 #5) buscar o nome e a especialidade de todos os médicos
-select DISTINCT (Especialidade) from medico;
+select nome, Especialidade from medico;
 
 #6) buscar o número dos ambulatórios do terceiro andar
 select NumeroA from ambulatorio where andar = 3;
@@ -23,7 +23,7 @@ select CRM, data from consulta where RG in (122,725);
 
 #8) buscar os números dos ambulatórios, exceto aqueles do segundo e quarto andares, que suportam
 mais de 50 pacientes
-select * from ambulatorio where andar <> 2 and capacidade > 50;
+select * from ambulatorio where andar not in (2,4) and capacidade > 50;
 
 #9) buscar o nome dos médicos que têm consulta marcada e as datas das suas consultas
 select m.nome, c.data from medico m inner join consulta c on m.crm = c.crm;
@@ -34,11 +34,11 @@ select a.capacidade, m.nome,a.numeroA from ambulatorio a inner join medico m on 
 
 #11) buscar o nome dos médicos e o nome dos seus pacientes com consulta marcada, assim como a
 data destas consultas
-select m.nome as NomeMedico, p.nome as NomePaciente, c.data from medico m inner join consulta c on m.crm = c.crm inner join paciente p on c.rg = p.rg;
+select m.nome as NomeMedico, p.nome as NomePaciente, c.data from medico m inner join consulta c on m.crm = c.crm inner join paciente p on c.rg = p.rg and c.data > current_date();
 
 #12) buscar os nomes dos médicos ortopedistas com consultas marcadas para o período da manhã
 (7hs-12hs) do dia 15/04/03.
-select m.nome from consulta c inner join medico m on c.crm = m.crm where data = '2003-04-15' and hora BETWEEN '07:00:00' and '12:00:00';
+select m.nome from consulta c inner join medico m on c.crm = m.crm where data = '2003-04-15' and hora BETWEEN '07:00:00' and '12:00:00' and m.especialidade = 'Ortopedista';
 
 #13) buscar os nomes dos pacientes, com consultas marcadas para os médicos João Carlos Santos ou
 Maria Souza, que estão com pneumonia
