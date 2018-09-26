@@ -1,4 +1,5 @@
-﻿create database empregos;
+﻿drop database if exists empregos; 
+create database empregos;
 use empregos; 
 
 create table empregado (
@@ -27,9 +28,9 @@ create table empregado_projeto (
     foreign key(id_projeto) references projeto(id_projeto)
 );
 
-insert into empregado values ("insert", 1, current_date(), "411.892.880-95", "maria souza", "1976-10-20", "av. oscar freire são paulo - sp", "feminino", 2900,00, "joão", "20");
-insert into empregado values ("insert", 2, current_date(), "339.169.230-80", "josé da silva", "1969-05-18", "av. paulista são paulo - sp", "masculino", 2450,00, "joão", "40");  
-insert into empregado values ("insert", 3, current_date(), "428.734.220-84", "mariana de andrade", "1985-12-06", "av. tiradentes são paulo - sp", "feminino", 4500,00, "joão", "12");   
+insert into empregado values ("insert", 1, current_date(), "411.892.880-95", "maria souza", "1976-10-20", "av. oscar freire são paulo - sp", "feminino", 2900.00, "joão", "20");
+insert into empregado values ("insert", 2, current_date(), "339.169.230-80", "josé da silva", "1969-05-18", "av. paulista são paulo - sp", "masculino", 2450.00, "joão", "40");  
+insert into empregado values ("insert", 3, current_date(), "428.734.220-84", "mariana de andrade", "1985-12-06", "av. tiradentes são paulo - sp", "feminino", 4500.00, "joão", "12");   
 
 insert into projeto values (1, "projeto graphite");
 insert into projeto values (2, "projeto macassar");
@@ -40,9 +41,6 @@ insert into empregado_projeto values (2, 1);
 insert into empregado_projeto values (2, 2);
 insert into empregado_projeto values (1, 1);
 
-
-# 1) faça um trigger de auditoria que armazene as informações do empregado, bem como, o evento( delete
-# ou update) que disparou este trigger, o usuário responsável pela alteração e a data do sistema.
 
 delimiter $
 create trigger auditorioupdate after update on empregado
@@ -63,8 +61,6 @@ delimiter ;
 update empregado set data_nascimento = "1976-11-20" where usuario = 1;
 delete from empregado where usuario = 3;
 
-
-# 2) faça um trigger para manter a faixa salarial em valores mínimo e máximo estabelecidos (inserts e
 updates).
 
 delimiter $
@@ -95,8 +91,6 @@ delimiter ;
 
 insert into empregado values ("insert", 4, current_date(), "131.429.990-51", "rafael bastos", "1978-01-16", "av. 23 de maio são paulo - sp", "masculino", 8000,00, "joão", "05"); 
 update empregado set salario = 800,00 where usuario = 2;
-
-# 3)  faça um trigger para não permitir a diminuição ou o aumento superior a 50% dos salários dos
 empregados, emitindo uma mensagem de erro (dica: use o comando signal:
 signal sqlstate '45000' set message_text = 'age less than 0'; )
 
@@ -131,9 +125,6 @@ end $
 delimiter $
 
 update empregado set horasemprojetos = 50 where usuario = 1;
-
-# 5) faça um trigger de segurança, para restringir o horário de manipulação da tabela de empregados entre
-# às 08:00 e 18:00 horas dos dias úteis.
 
 delimiter $
 create trigger horariomanip before update on empregado
