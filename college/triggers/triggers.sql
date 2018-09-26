@@ -110,8 +110,6 @@ delimiter $
 
 update empregado set salario = 2900,00 where usuario = 2;
 
-4) faça um trigger para que um empregado não possa ter mais do que 44 horas na soma dos projetos.
-
 delimiter $
 create trigger tempoemprojetos before update on empregado
 for each row 
